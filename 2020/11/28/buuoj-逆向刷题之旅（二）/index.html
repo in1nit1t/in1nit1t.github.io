@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://in1nit1t.github.io">
   <title>buuoj 逆向刷题之旅（二） | in1t&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇已经 1 万多字了，图又多，翻起页来都费劲，这里接着写 以下是目前涉及到的关键词：  架构：x86, JVM  文件类型：exe, elf, apk  考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏   PS. 用到的 python 脚本运行环境除特殊标注外均为 python2，如果内容有误或者图片缺失，欢迎联系我修正">
+  <meta name="description" content="以下是目前涉及到的关键词：  架构：x86, JVM  文件类型：exe, elf, apk  考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制   PS. 用到的 python 脚本运行环境除特殊标注外均为 python2，如果内容有误或者图片缺失，欢迎联系我修正">
 <meta property="og:type" content="article">
 <meta property="og:title" content="buuoj 逆向刷题之旅（二）">
 <meta property="og:url" content="http://in1nit1t.github.io/2020/11/28/buuoj-%E9%80%86%E5%90%91%E5%88%B7%E9%A2%98%E4%B9%8B%E6%97%85%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="in1t&#39;s blog">
-<meta property="og:description" content="上一篇已经 1 万多字了，图又多，翻起页来都费劲，这里接着写 以下是目前涉及到的关键词：  架构：x86, JVM  文件类型：exe, elf, apk  考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏   PS. 用到的 python 脚本运行环境除特殊标注外均为 python2，如果内容有误或者图片缺失，欢迎联系我修正">
+<meta property="og:description" content="以下是目前涉及到的关键词：  架构：x86, JVM  文件类型：exe, elf, apk  考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制   PS. 用到的 python 脚本运行环境除特殊标注外均为 python2，如果内容有误或者图片缺失，欢迎联系我修正">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/GWCTF2019babyvm/1.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/GWCTF2019babyvm/2.png">
@@ -57,8 +57,22 @@
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/SCTF2019Strangeapk/4.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/MRCTF2020PixelShooter/1.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/MRCTF2020PixelShooter/2.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/1.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/2.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/3.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/4.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/5.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/6.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/7.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/8.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/9.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/10.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/11.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/12.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/13.png">
+<meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/14.png">
 <meta property="article:published_time" content="2020-11-28T09:54:41.000Z">
-<meta property="article:modified_time" content="2021-01-13T10:47:39.317Z">
+<meta property="article:modified_time" content="2021-01-15T09:20:11.746Z">
 <meta property="article:author" content="in1t">
 <meta property="article:tag" content="buuoj">
 <meta property="article:tag" content="逆向">
@@ -207,14 +221,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上一篇已经 1 万多字了，图又多，翻起页来都费劲，这里接着写</p>
-<p>以下是目前涉及到的关键词：</p>
+        <p>以下是目前涉及到的关键词：</p>
 <ul>
 <li><p>架构：x86, JVM</p>
 </li>
 <li><p>文件类型：exe, elf, apk</p>
 </li>
-<li><p>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏</p>
+<li><p>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制</p>
 </li>
 </ul>
 <p>PS. 用到的 python 脚本运行环境<strong>除特殊标注外均为 python2</strong>，<strong>如果内容有误或者图片缺失，欢迎联系我修正</strong></p>
@@ -355,6 +368,81 @@
 <p><img src="../img/MRCTF2020PixelShooter/1.png" alt="MRCTF2020PixelShooter"></p>
 <p>发现有更新 UI 的语句，在 UIController 类的 GameOver 方法中找到 flag：</p>
 <p><img src="../img/MRCTF2020PixelShooter/2.png" alt="MRCTF2020PixelShooter"></p>
+<br>
+
+<h4 id="安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制"><a href="#安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制" class="headerlink" title="[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制"></a>[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制</h4><p>程序中使用 IAT hook 技术，将导入表中的 MessageBoxW 函数替换为 sub_411023，具体怎么实现 hook 的后面再说，现在只需知道 main 函数中调用 MessageBoxW 时实际是调用了 sub_411023：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/1.png" alt="安洵杯2019crackMe"></p>
+<p>sub_411023 会跳转到 sub_412AB0，该函数干的事就是将 base64 编码表的大小写交换，并且注册一个 VEH：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/2.png" alt="安洵杯2019crackMe"></p>
+<p>之后返回到 main 函数，安装了一个 SEH，然后故意引发了一个异常：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/3.png" alt="安洵杯2019crackMe"></p>
+<p>众所周知，Windows 用户态异常发生先找调试器，没有再找 VEH，VEH 处理不了再找 SEH， SEH 还处理不了找 UEF（UnhandledExceptionFilter，用户设置的 TopLevelExceptionFilter 在该阶段被调用）。前面已经注册了 VEH 和 SEH，所以先走 VEH：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/4.png" alt="安洵杯2019crackMe"></p>
+<p>VEH 干了两件事</p>
+<ul>
+<li>用长度为 16 个字节的 key 对 sm4 加密进行初始化</li>
+<li>设置 UEF 为 TopLevelExceptionFilter</li>
+</ul>
+<p>注意，返回值为 0（EXCEPTION_CONTINUE_SEARCH），表示此 VEH 没能处理这个异常，接着异常交给 SEH：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/5.png" alt="安洵杯2019crackMe"></p>
+<p>SEH 中对输入进行了 sm4 加密，结果存在 output 中，返回值为 1（EXCEPTION_DISPOSITION::ExceptionContinueSearch），表示 SEH 仍没能处理这个异常，故异常递交给 TopLevelExceptionFilter：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/6.png" alt="安洵杯2019crackMe"></p>
+<p>变种 base64 编码函数 sub_41126C 跳转 sub_413090，该函数有两点要注意：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/7.png" alt="安洵杯2019crackMe"></p>
+<p>最后异常返回，去到 sub_411136 执行比较</p>
+<p>整理一下程序流程：IAT hook -&gt; main -&gt; printf -&gt; scanf_s -&gt; MessageBoxW(被替换成 sub_411023，注册了 VEH) -&gt; 安装 SEH -&gt; 异常发生 -&gt; VEH(sub_412F40，设置了 UEF) -&gt; SEH(sub_412EA0) -&gt; UEF(sub_412C30) -&gt; sub_411136</p>
+<p>解题脚本（sm4 库安装：pip install sm4）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> sm4</span><br><span class="line"></span><br><span class="line">ori = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</span></span><br><span class="line">now = <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sub_412AB0</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> ori:</span><br><span class="line">	tmp = ord(c)</span><br><span class="line">	<span class="keyword">if</span> <span class="number">97</span> &lt;= tmp &lt;= <span class="number">122</span>:</span><br><span class="line">		now += chr(tmp - <span class="number">32</span>)</span><br><span class="line">	<span class="keyword">elif</span> <span class="number">65</span> &lt;= tmp &lt;= <span class="number">90</span>:</span><br><span class="line">		now += chr(tmp + <span class="number">32</span>)</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		now += c</span><br><span class="line"></span><br><span class="line">ori += <span class="string">'='</span></span><br><span class="line">now = now[<span class="number">24</span>:] + now[:<span class="number">24</span>] + <span class="string">'!'</span>		<span class="comment"># sub_4110FF -&gt; sub_412760</span></span><br><span class="line"><span class="comment"># ori = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=</span></span><br><span class="line"><span class="comment"># now = yzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/abcdefghijklmnopqrstuvwx!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sub_412C30</span></span><br><span class="line">str2 = <span class="string">"1UTAOIkpyOSWGv/mOYFY4R!!"</span></span><br><span class="line">str2_swap = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(str2), <span class="number">2</span>):</span><br><span class="line">	str2_swap += str2[i+<span class="number">1</span>] + str2[i]</span><br><span class="line"></span><br><span class="line"><span class="comment"># sub_41126C -&gt; sub_413090</span></span><br><span class="line">b64string = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> str2_swap:</span><br><span class="line">	b64string += ori[now.find(s)]</span><br><span class="line">sm4_encoded = base64.b64decode(b64string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># sub_412EA0</span></span><br><span class="line">key = sm4.SM4Key(<span class="string">b"where_are_u_now?"</span>)</span><br><span class="line"><span class="keyword">print</span> key.decrypt(sm4_encoded)</span><br></pre></td></tr></table></figure>
+
+<p>PS. 本题的 IAT hook 是怎样完成的？</p>
+<p>与 elf 类似，exe 的 main 函数并非程序入口点，main 函数是由 start 函数调用 mainCRTStartup，完成一系列初始化后才调用的。初始化过程中会<strong>调用 initterm/initterm_e 函数来初始化所有全局和静态 C++ 类对象的构造函数</strong>，可以在 rdata 段的函数指针表中找到 dd offset sub_411235：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/8.png" alt="安洵杯2019crackMe"></p>
+<p>该函数是某个类的构造函数，并且出题人将该类的一个对象声明在了全局变量区域或声明为静态对象，导致 sub_411235 在 mainCRTStartup 的初始化中被调用</p>
+<p>知道了 hook 函数被调用的时机，现在来理理函数的逻辑。sub_411235 跳转到 sub_411E40：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/9.png" alt="安洵杯2019crackMe"></p>
+<p>获取了 exe 基址并调用 sub_41114A，传递了三个参数：</p>
+<ul>
+<li>exe 基址</li>
+<li>要 hook 的函数所在的 dll 名 - User32.dll</li>
+<li>要 hook 的函数名 - MessageBoxW</li>
+</ul>
+<p>sub_41114A 跳转 sub_412DF0：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/10.png" alt="安洵杯2019crackMe"></p>
+<p>调用 LoadLibrary 加载 user32.dll，返回 user32.dll 的基址存到 hModule 中；调用 GetProcAddress，传入 hModule 与 MessageBoxW 函数名，得到 MessageBoxW 函数的内存地址；调用 sub_41118B，传入三个参数：</p>
+<ul>
+<li>exe 基址</li>
+<li>要 hook 的函数所在的 dll 名 - User32.dll</li>
+<li>MessageBoxW 的内存地址</li>
+</ul>
+<p>sub_41118B 跳转 sub_4127B0（对符号进行还原）：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/11.png" alt="安洵杯2019crackMe"></p>
+<p>内容有些多，一点点来看：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optional_header = (IMAGE_OPTIONAL_HEADER32 *)(baseAddr + *(_DWORD *)(baseAddr + <span class="number">60</span>) + <span class="number">24</span>);</span><br></pre></td></tr></table></figure>
+
+<p>先将 baseAddr（exe基址）类型转化为 IMAGE_DOS_HEADER 指针，*(_DWORD *)(baseAddr + 60) 就是 baseAddr-&gt;e_lfanew，该值为 IMAGE_NT_HEADERS 的偏移，加上 baseAddr 就是 IMAGE_NT_HEADERS 结构体的起始地址，再加上 24，就是 IMAGE_NT_HEADERS.OptionalHeader 字段的地址，这样就得到了 optional_header</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import_descriptor = (IMAGE_IMPORT_DESCRIPTOR *)(optional_header-&gt;DataDirectory[<span class="number">1</span>].VirtualAddress + baseAddr);</span><br></pre></td></tr></table></figure>
+
+<p>optional_header-&gt;DataDirectory[1] 就是 IAT（导入表）对应的 IMAGE_DATA_DIRECTORY 结构体，访问字段 VirtualAddress 获得 IAT 起始地址的偏移，加上 baseAddr 得到 IAT 表的地址。IAT 表是由一个个 IMAGE_IMPORT_DESCRIPTOR 结构体组成的数组，一个 dll 对应这么一个 IMAGE_IMPORT_DESCRIPTOR 结构体。重新审视这个 for 循环：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/12.png" alt="安洵杯2019crackMe"></p>
+<p>很清楚，目的就是找到 user32.dll 对应的 IMAGE_IMPORT_DESCRIPTOR 结构体地址</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thunk_data = (IMAGE_THUNK_DATA32 *)(import_descriptor-&gt;FirstThunk + baseAddr);</span><br></pre></td></tr></table></figure>
+
+<p>找到以后，访问字段 FirstThunk，加上 baseAddr，获得由多个 IMAGE_THUNK_DATA 结构体组成的 thunk_data 数组，从该 dll 中导入了多少个函数，就有多少个 IMAGE_THUNK_DATA 结构体。那么下面这个 while 循环也不难理解了：</p>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/13.png" alt="安洵杯2019crackMe"></p>
+<p>该循环遍历 thunk_data 数组，找到 MessageBoxW 对应的 IMAGE_THUNK_DATA 结构体地址，现在只需要将 IMAGE_THUNK_DATA 的该字段覆写为 sub_411023 函数的地址，再调用 MessageBoxW 时，就会跳到 sub_411023 去了！</p>
+<p>要想往一个内存地址里写东西，一般需要三个步骤：</p>
+<ul>
+<li><p>修改该地址所在内存页的保护属性，至少改成可读可写，记下原页面属性</p>
+</li>
+<li><p>写入数据</p>
+</li>
+<li><p>还原原页面属性</p>
+<p>覆写的部分：</p>
+</li>
+</ul>
+<p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/14.png" alt="安洵杯2019crackMe"></p>
+<p>thunk_data 现在是找到的 MessageBoxW 的 IMAGE_THUNK_DATA 结构体地址，右移再左移是为了使低 12 位清零，计算出该地址所在内存页的起始地址（内存页 4K 对齐）；VirtualQuery 获取该内存区域的属性到 Buffer 中（主要是为了通过 Buffer.RegionSize 获取内存区域的大小）；VirtualProtect 修改这片内存区域的保护属性为 0x40（可读可写可执行）；WriteProcessMemory 在 thunk_data 处写入 4 个字节（sub_411023 函数的地址）；最后的 VirtualProtect 还原原来的页面保护属性，大功告成！</p>
+<p>之后 mainCRTStartup 完成剩余初始化任务，调用 main 函数。main 中再调用 MessageBoxW 时，就会跳到 sub_411023 去了</p>
 
       
 
