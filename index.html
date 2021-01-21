@@ -164,7 +164,7 @@
 <ul>
 <li>架构：x86, JVM</li>
 <li>文件类型：exe, elf, apk</li>
-<li>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, ollvm平坦化, 虚假控制流, 数独</li>
+<li>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出</li>
 </ul>
 <p>PS. 用到的 python 脚本运行环境<strong>除特殊标注外均为 python2</strong>，<strong>如果内容有误或者图片缺失，欢迎联系我修正</strong></p>
         
@@ -338,12 +338,83 @@
       
         <p>本文将介绍 Android 5.0 ~10.0 版本 <strong>模拟器</strong> 与 <strong>真机</strong> Xposed/EdXposed 框架的搭建，并提供一个 hook 示例</p>
 <h4 id="MuMu-模拟器-Xposed-框架搭建"><a href="#MuMu-模拟器-Xposed-框架搭建" class="headerlink" title="MuMu 模拟器 Xposed 框架搭建"></a>MuMu 模拟器 Xposed 框架搭建</h4><p><strong>PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器</strong></p>
-<p>1.首先连接模拟器（MuMu 的端口在 7555）</p>
-<p>​    <code>adb connect 127.0.0.1:7555</code></p>
-<p>​    查看当前设备，已经连接上：</p>
-        
-          <a class="article-more-a" href="/2020/10/13/Xposed%E4%B8%8EEdXposed%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/#more">more >></a>
-        
+<p>1.打开 root 权限</p>
+<p>​    点击右上角三条横杠的图标，选择 <strong>设置中心</strong></p>
+<p><img src="../img/2.png" alt="打开root权限"></p>
+<p>​    在基本设置中勾选 <strong>开启 root 权限</strong>，保存并重启模拟器</p>
+<p><img src="../img/3.png" alt="打开root权限"></p>
+<p>2.从 <a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">网站</a> 下载 Xposed 最终版 apk 并在模拟器中安装</p>
+<p><img src="../img/4.png" alt="下载Xposed apk"></p>
+<p>3.打开安装好的 <code>Xposed Installer</code>，点击 <strong>Version89</strong>，选择 <strong>Install</strong></p>
+<p><img src="../img/5.png" alt="安装框架"></p>
+<p>4.等待一会儿，没有出现红字表示安装成功，应该会提示重启手机生效，如果没有提示就手动重启。再次打开 <code>Xposed Installer</code> 显示框架激活成功，即可开始 hook 之旅</p>
+<p><img src="../img/6.png" alt="安装成功"></p>
+<br>
+
+<h4 id="OnePlus-真机-EdXposed-框架搭建"><a href="#OnePlus-真机-EdXposed-框架搭建" class="headerlink" title="OnePlus 真机 EdXposed 框架搭建"></a>OnePlus 真机 EdXposed 框架搭建</h4><p><strong>PS. 此方法目前适用 Android 8.0 ~ 10.0，需要手机 root 权限</strong></p>
+<p>这里假设手机已经刷入了第三方 recovery 及通过 Magisk 获取了 root 权限，作者在 github 上这样写到：</p>
+<p><img src="../img/10.png" alt="安装方法"></p>
+<p>1.首先挂个到 M 国的梯子，打开 <code>Magisk Manager</code>，进入模块界面（旧版本在<strong>下载</strong>中），在线模块中会出现很多仓库中的模块</p>
+<p><img src="../img/7.png" alt="主页"></p>
+<p>2.直接搜索 riru，先安装 <strong>Riru - core</strong>，重启后安装 <strong>Riru - EdXposed</strong>，再重启一次</p>
+<p><img src="../img/8.png" alt="模块视窗"></p>
+<p>3.到 <a href="">github</a> 上下载配套的 EdXposed Manager 并安装、重启</p>
+<p><img src="../img/9.png" alt="安装Edxposed Manager"></p>
+<p>4.打开 EdXposed Manager，出现如下界面表示框架安装成功，剩下的模块开发流程与 Xposed 相同</p>
+<p><img src="../img/11.png" alt="安装成功"></p>
+<br>
+
+<h4 id="EdXposed-Hook-示例"><a href="#EdXposed-Hook-示例" class="headerlink" title="EdXposed Hook 示例"></a>EdXposed Hook 示例</h4><p>这里以 OnePlus 真机（Android 9）为例，Xposed 框架与其操作完全相同，开发 IDE 使用 Android Studio 4.0.1</p>
+<blockquote>
+<p>示例 APP</p>
+</blockquote>
+<p>下面是被 hook 程序 <code>MainActivity</code> 代码，该 app 只是简单的将 Hello World! 显示在中央：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.helloword;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        TextView tv = (TextView) findViewById(R.id.tv);</span><br><span class="line">        tv.setText(GetWelcomeString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">GetWelcomeString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello World!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面：</p>
+<p><img src="../img/12.png" alt="被hook程序"></p>
+<p>本例的目标是 hook <code>GetWelcomeString()</code> 函数，使软件显示 <strong>Hello World! - Hooked</strong></p>
+<br>
+
+<blockquote>
+<p>创建并配置 Hook 项目</p>
+</blockquote>
+<p>创建新的 EdXposed 项目，并添加新 Java 类，命名为 <strong>HookMain</strong></p>
+<p><img src="../img/13.png" alt="EdXposed项目"></p>
+<p>app 层级下创建一个目录 <strong>mylib</strong>，下载 <a href="https://forum.xda-developers.com/xposed/xposed-api-changelog-developer-news-t2714067" target="_blank" rel="noopener">XposedBridgeApi-54.jar</a> 并拷贝到 mylib 中（不要直接放在 libs 目录中）</p>
+<p><img src="../img/14.png" alt="mylib"></p>
+<p>右键该 jar 包，选择 <strong>Add As Library…</strong>，弹出窗口中选择 OK</p>
+<p><img src="../img/15.png" alt="mylib"></p>
+<p>打开 <code>app\src\build.gradle</code>，找到 dependencies，删除 <strong>implementation files(‘mylib\XposedBridgeApi-54.jar’)</strong>，添加 <strong>compileOnly ‘de.robv.android.xposed:api:82’</strong>。有的教程里还在用 provided 关键字，该关键字已经被废弃，取而代之的是 compileOnly</p>
+<p><img src="../img/16.png" alt="build.gradle"></p>
+<p>编辑 <code>AndroidManifest.xml</code>，在 <strong>application</strong> 标签下为模块添加 meta-data 描述</p>
+<p><img src="../img/17.png" alt="AndroidManifest"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposedmodule"</span> <span class="attr">android:value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposeddescription"</span> <span class="attr">android:value</span>=<span class="string">"EdXposed 插件开发测试"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposedminversion"</span> <span class="attr">android:value</span>=<span class="string">"54"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后需要告诉框架此模块的入口类在哪里</p>
+<p>创建 assets 文件夹</p>
+<p><img src="../img/18.png" alt="创建assets文件夹"></p>
+<p>在 assets 文件夹下创建 xposed_init 文件</p>
+<p><img src="../img/19.png" alt="xposed_init"></p>
+<p>写入 HookMain 的路径</p>
+<p><img src="../img/20.png" alt="xposed_init"></p>
+<br>
+
+<blockquote>
+<p>编写 Hook 代码</p>
+</blockquote>
+<p>如图：</p>
+<p><img src="../img/21.png" alt="hook代码"></p>
+<br>
+
+<blockquote>
+<p>安装运行</p>
+</blockquote>
+<p>将该 hook 用的 apk 安装到手机上，在 EdXposed Manager 中打开模块视窗，激活该模块</p>
+<p><img src="../img/22.png" alt="激活模块"></p>
+<p>重启后打开 HelloWorld 的 app，可以看到，已经被 Hook 了</p>
+<p><img src="../img/23.png" alt="hook成功"></p>
+
       
 
       

@@ -8,14 +8,13 @@
   <link rel="dns-prefetch" href="http://in1nit1t.github.io">
   <title>Xposed与EdXposed框架搭建 | in1t&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.首先连接模拟器（MuMu 的端口在 7555） ​    adb connect 127.0.0.1:7555 ​    查看当前设备，已经连接上">
+  <meta name="description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.打开 root 权限 ​    点击右上角三条横杠的图标，选择 设置中心  ​    在基本设置中勾选 开启 root 权限，保存并重启模拟器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xposed与EdXposed框架搭建">
 <meta property="og:url" content="http://in1nit1t.github.io/2020/10/13/Xposed%E4%B8%8EEdXposed%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="in1t&#39;s blog">
-<meta property="og:description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.首先连接模拟器（MuMu 的端口在 7555） ​    adb connect 127.0.0.1:7555 ​    查看当前设备，已经连接上">
+<meta property="og:description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.打开 root 权限 ​    点击右上角三条横杠的图标，选择 设置中心  ​    在基本设置中勾选 开启 root 权限，保存并重启模拟器">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/1.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/2.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/3.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/4.png">
@@ -39,12 +38,12 @@
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/22.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/23.png">
 <meta property="article:published_time" content="2020-10-13T14:16:02.000Z">
-<meta property="article:modified_time" content="2020-10-13T14:23:03.503Z">
+<meta property="article:modified_time" content="2021-01-21T01:43:48.691Z">
 <meta property="article:author" content="in1t">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="hook">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://in1nit1t.github.io/2020/10/13/img/1.png">
+<meta name="twitter:image" content="http://in1nit1t.github.io/2020/10/13/img/2.png">
   
     <link rel="alternative" href="/atom.xml" title="in1t&#39;s blog" type="application/atom+xml">
   
@@ -190,22 +189,16 @@
       
         <p>本文将介绍 Android 5.0 ~10.0 版本 <strong>模拟器</strong> 与 <strong>真机</strong> Xposed/EdXposed 框架的搭建，并提供一个 hook 示例</p>
 <h4 id="MuMu-模拟器-Xposed-框架搭建"><a href="#MuMu-模拟器-Xposed-框架搭建" class="headerlink" title="MuMu 模拟器 Xposed 框架搭建"></a>MuMu 模拟器 Xposed 框架搭建</h4><p><strong>PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器</strong></p>
-<p>1.首先连接模拟器（MuMu 的端口在 7555）</p>
-<p>​    <code>adb connect 127.0.0.1:7555</code></p>
-<p>​    查看当前设备，已经连接上：</p>
-<a id="more"></a>
-
-<p><img src="../img/1.png" alt="adb连接MuMu"></p>
-<p>2.打开 root 权限</p>
+<p>1.打开 root 权限</p>
 <p>​    点击右上角三条横杠的图标，选择 <strong>设置中心</strong></p>
 <p><img src="../img/2.png" alt="打开root权限"></p>
-<p>​    在基本设置中勾选 <strong>开启 root 权限</strong>，保存并关闭</p>
+<p>​    在基本设置中勾选 <strong>开启 root 权限</strong>，保存并重启模拟器</p>
 <p><img src="../img/3.png" alt="打开root权限"></p>
-<p>3.从 <a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">网站</a> 下载 Xposed 最终版 apk 并在模拟器中安装</p>
+<p>2.从 <a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">网站</a> 下载 Xposed 最终版 apk 并在模拟器中安装</p>
 <p><img src="../img/4.png" alt="下载Xposed apk"></p>
-<p>4.打开安装好的 <code>Xposed Installer</code>，点击 <strong>Version89</strong>，选择 <strong>Install</strong></p>
+<p>3.打开安装好的 <code>Xposed Installer</code>，点击 <strong>Version89</strong>，选择 <strong>Install</strong></p>
 <p><img src="../img/5.png" alt="安装框架"></p>
-<p>5.等待一会儿，没有出现红字表示安装成功，应该会提示重启手机生效，如果没有提示就手动重启。再次打开 <code>Xposed Installer</code> 显示框架激活成功，即可开始 hook 之旅</p>
+<p>4.等待一会儿，没有出现红字表示安装成功，应该会提示重启手机生效，如果没有提示就手动重启。再次打开 <code>Xposed Installer</code> 显示框架激活成功，即可开始 hook 之旅</p>
 <p><img src="../img/6.png" alt="安装成功"></p>
 <br>
 
