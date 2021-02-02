@@ -138,7 +138,7 @@
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/10/img/FlareOn3Challenge1/1.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/10/img/equation/1.png">
 <meta property="article:published_time" content="2020-11-10T10:42:32.000Z">
-<meta property="article:modified_time" content="2020-11-28T10:44:46.535Z">
+<meta property="article:modified_time" content="2021-02-01T16:40:25.037Z">
 <meta property="article:author" content="in1t">
 <meta property="article:tag" content="buuoj">
 <meta property="article:tag" content="逆向">
@@ -294,7 +294,7 @@
 </li>
 <li><p>文件类型：exe, elf, apk, MachO, pyc, javascript, sys</p>
 </li>
-<li><p>考点：upx, java层, base64, maze, 图形界面, DOS, patch, sha1, md5, elf运行流程, 花指令, RSA, 恺撒密码, native层, 变种base64, .NET, 混淆, tea, Unity游戏, 反调试, go语言, 固件分析, xxtea, AES_ECB, 二叉树, 数独, vm虚拟机, z3, angr,  JsFuck混淆</p>
+<li><p>考点：upx, java层, base64, maze, 图形界面, DOS, patch, sha1, md5, elf运行流程, 花指令, RSA, 恺撒密码, native层, 变种base64, .NET, 混淆, tea, Unity游戏, 反调试, go语言, 固件分析, xxtea, SMC, AES_ECB, 二叉树, 数独, vm虚拟机, z3, angr,  JsFuck混淆</p>
 </li>
 </ul>
 <p>PS. 用到的 python 脚本运行环境<strong>除特殊标注外均为 python2</strong>，<strong>如果内容有误或者图片缺失，欢迎联系我修正</strong></p>
@@ -816,7 +816,7 @@
 
 <br>
 
-<h4 id="GWCTF-2019-re3-x86-elf-md5-AES-ECB"><a href="#GWCTF-2019-re3-x86-elf-md5-AES-ECB" class="headerlink" title="[GWCTF 2019]re3 | x86,elf,md5,AES_ECB"></a>[GWCTF 2019]re3 | x86,elf,md5,AES_ECB</h4><p>main 函数：</p>
+<h4 id="GWCTF-2019-re3-x86-elf-SMC-md5-AES-ECB"><a href="#GWCTF-2019-re3-x86-elf-SMC-md5-AES-ECB" class="headerlink" title="[GWCTF 2019]re3 | x86,elf,SMC,md5,AES_ECB"></a>[GWCTF 2019]re3 | x86,elf,SMC,md5,AES_ECB</h4><p>main 函数：</p>
 <p><img src="../img/GWCTF2019re3/1.png" alt="GWCTF2019re3"></p>
 <p>for 循环表示只有在运行的时候才会解密 sub_402219 函数（该函数逐字节异或 0x99），写个 python 的 idc 脚本直接还原该函数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"></span><br><span class="line">funcAddr = <span class="number">0x402219</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">224</span>):</span><br><span class="line">	enc = get_bytes(funcAddr + i, <span class="number">1</span>)</span><br><span class="line">	dec = ord(enc) ^ <span class="number">0x99</span></span><br><span class="line">	patch_byte(funcAddr + i, dec)</span><br></pre></td></tr></table></figure>
