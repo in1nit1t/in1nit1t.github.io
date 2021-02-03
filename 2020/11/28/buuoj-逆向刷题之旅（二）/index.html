@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://in1nit1t.github.io">
   <title>buuoj 逆向刷题之旅（二） | in1t&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="以下是目前涉及到的关键词：  架构：x86, JVM 文件类型：exe, elf, apk 考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC  PS. 用到的 python 脚本运行环境除特殊标注外均">
+  <meta name="description" content="以下是本文涉及到的关键词：  架构：x86, JVM 文件类型：exe, elf, apk 考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, sm4, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC  PS. 用到的 python 脚本运行环境除特">
 <meta property="og:type" content="article">
 <meta property="og:title" content="buuoj 逆向刷题之旅（二）">
 <meta property="og:url" content="http://in1nit1t.github.io/2020/11/28/buuoj-%E9%80%86%E5%90%91%E5%88%B7%E9%A2%98%E4%B9%8B%E6%97%85%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="in1t&#39;s blog">
-<meta property="og:description" content="以下是目前涉及到的关键词：  架构：x86, JVM 文件类型：exe, elf, apk 考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC  PS. 用到的 python 脚本运行环境除特殊标注外均">
+<meta property="og:description" content="以下是本文涉及到的关键词：  架构：x86, JVM 文件类型：exe, elf, apk 考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, sm4, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC  PS. 用到的 python 脚本运行环境除特">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/GWCTF2019babyvm/1.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/GWCTF2019babyvm/2.png">
@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/WUSTCTF2020funnyre/3.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/11/28/img/WUSTCTF2020funnyre/4.png">
 <meta property="article:published_time" content="2020-11-28T09:54:41.000Z">
-<meta property="article:modified_time" content="2021-02-02T14:10:36.804Z">
+<meta property="article:modified_time" content="2021-02-03T03:45:32.963Z">
 <meta property="article:author" content="in1t">
 <meta property="article:tag" content="buuoj">
 <meta property="article:tag" content="逆向">
@@ -255,16 +255,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>以下是目前涉及到的关键词：</p>
+        <p>以下是本文涉及到的关键词：</p>
 <ul>
 <li>架构：x86, JVM</li>
 <li>文件类型：exe, elf, apk</li>
-<li>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC</li>
+<li>考点：vm虚拟机, angr, 图形界面, 花指令, 二叉树, java层, .NET, Unity游戏, hook, Windows异常机制, sm4, ollvm平坦化, 虚假控制流, 数独, apk加固, 栈溢出, 变种base64, 反调试, SMC</li>
 </ul>
 <p>PS. 用到的 python 脚本运行环境<strong>除特殊标注外均为 python2</strong>，<strong>如果内容有误或者图片缺失，欢迎联系我修正</strong></p>
 <a id="more"></a>
 
-<p>既然选择了车万，那就贯彻到底咯</p>
+<p>好耶！φ(&gt;ω&lt;*) </p>
 <iframe frameborder="0" border="1"
     marginwidth="0" marginheight="0"
     width=100% height=105
@@ -401,7 +401,7 @@
 <p><img src="../img/MRCTF2020PixelShooter/2.png" alt="MRCTF2020PixelShooter"></p>
 <br>
 
-<h4 id="安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制"><a href="#安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制" class="headerlink" title="[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制"></a>[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制</h4><p>程序中使用 IAT hook 技术，将导入表中的 MessageBoxW 函数替换为 sub_411023，具体怎么实现 hook 的后面再说，现在只需知道 main 函数中调用 MessageBoxW 时实际是调用了 sub_411023：</p>
+<h4 id="安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制-sm4"><a href="#安洵杯-2019-crackMe-x86-exe-hook-Windows异常机制-sm4" class="headerlink" title="[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制,sm4"></a>[安洵杯 2019]crackMe | x86,exe,hook,Windows异常机制,sm4</h4><p>程序中使用 IAT hook 技术，将导入表中的 MessageBoxW 函数替换为 sub_411023，具体怎么实现 hook 的后面再说，现在只需知道 main 函数中调用 MessageBoxW 时实际是调用了 sub_411023：</p>
 <p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/1.png" alt="安洵杯2019crackMe"></p>
 <p>sub_411023 会跳转到 sub_412AB0，该函数干的事就是将 base64 编码表的大小写交换，并且注册一个 VEH：</p>
 <p><img src="../img/%E5%AE%89%E6%B4%B5%E6%9D%AF2019crackMe/2.png" alt="安洵杯2019crackMe"></p>
@@ -770,6 +770,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2021/02/03/%C2%96buuoj-%E9%80%86%E5%90%91%E5%88%B7%E9%A2%98%E4%B9%8B%E6%97%85%EF%BC%88%E4%B8%89%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          buuoj 逆向刷题之旅（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2020/11/10/buuoj-%E9%80%86%E5%90%91%E5%88%B7%E9%A2%98%E4%B9%8B%E6%97%85%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
