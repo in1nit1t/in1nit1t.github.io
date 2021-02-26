@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://in1nit1t.github.io">
   <title>Xposed与EdXposed框架搭建 | in1t&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.打开 root 权限 ​    点击右上角三条横杠的图标，选择 设置中心  ​    在基本设置中勾选 开启 root 权限，保存并重启模拟器">
+  <meta name="description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xposed与EdXposed框架搭建">
 <meta property="og:url" content="http://in1nit1t.github.io/2020/10/13/Xposed%E4%B8%8EEdXposed%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="in1t&#39;s blog">
-<meta property="og:description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例 MuMu 模拟器 Xposed 框架搭建PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器 1.打开 root 权限 ​    点击右上角三条横杠的图标，选择 设置中心  ​    在基本设置中勾选 开启 root 权限，保存并重启模拟器">
+<meta property="og:description" content="本文将介绍 Android 5.0 ~10.0 版本 模拟器 与 真机 Xposed&#x2F;EdXposed 框架的搭建，并提供一个 hook 示例">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/2.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/3.png">
@@ -38,10 +38,9 @@
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/22.png">
 <meta property="og:image" content="http://in1nit1t.github.io/2020/10/13/img/23.png">
 <meta property="article:published_time" content="2020-10-13T14:16:02.000Z">
-<meta property="article:modified_time" content="2021-01-21T01:43:48.691Z">
+<meta property="article:modified_time" content="2021-02-13T12:17:50.170Z">
 <meta property="article:author" content="in1t">
 <meta property="article:tag" content="安卓">
-<meta property="article:tag" content="hook">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://in1nit1t.github.io/2020/10/13/img/2.png">
   
@@ -188,6 +187,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>本文将介绍 Android 5.0 ~10.0 版本 <strong>模拟器</strong> 与 <strong>真机</strong> Xposed/EdXposed 框架的搭建，并提供一个 hook 示例</p>
+<a id="more"></a>
+
 <h4 id="MuMu-模拟器-Xposed-框架搭建"><a href="#MuMu-模拟器-Xposed-框架搭建" class="headerlink" title="MuMu 模拟器 Xposed 框架搭建"></a>MuMu 模拟器 Xposed 框架搭建</h4><p><strong>PS. 该方法适用 Android 5.0 ~ 8.1 的模拟器</strong></p>
 <p>1.打开 root 权限</p>
 <p>​    点击右上角三条横杠的图标，选择 <strong>设置中心</strong></p>
@@ -279,10 +280,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安卓</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hook</a>
         		</li>
       		
 		</ul>
@@ -549,19 +546,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hook</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">抓包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">.NET</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">混淆</a>
               </li>
             
             <div class="clearfix"></div>
