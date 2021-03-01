@@ -140,6 +140,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Linux内核源码阅读-mm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/27/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-mm/">Linux内核源码阅读-mm</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/27/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-mm/" class="archive-article-date">
+  	<time datetime="2020-04-27T13:57:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mm 是 Linux 0.11 内存管理的模块，一共两个文件 memory.c 与 page.s。开篇先来“再续前缘”，继续探讨写时复制技术的后半部分。上一篇文章提到了，当父/子进程其中之一对只读的内存页面进行写操作时，会产生页错误的异常，该异常处理程序负责将共享的内存页面复制到新内存页中，并重新构建该页表项，使其指向新内存页并可写。实际上，页错误异常不仅由写保护引发，还有可能是<strong>缺页</strong>引起的。页错误异常就定义在 page.s 中，该文件也就只有 page_fault 的代码：</p>
+        
+          <a class="article-more-a" href="/2020/04/27/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-mm/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux0.11</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/27/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-mm/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux内核源码阅读-kernel（五）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -883,95 +963,6 @@
 
 
   
-    <article id="post-Linux内核源码阅读-引导启动部分（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/20/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E9%83%A8%E5%88%86%EF%BC%88%E4%B8%80%EF%BC%89/">Linux内核源码阅读--引导启动部分（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/20/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E9%83%A8%E5%88%86%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-03-20T01:21:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="boot-文件夹目录结构及功能"><a href="#boot-文件夹目录结构及功能" class="headerlink" title="boot 文件夹目录结构及功能"></a>boot 文件夹目录结构及功能</h4><blockquote>
-<p>目录结构</p>
-</blockquote>
-<p>该文件夹下有三个文件，分别是：</p>
-<ul>
-<li>bootsect.s：Intel 语法格式</li>
-<li>setup.s：Intel 语法格式</li>
-<li>head.s：AT&amp;T 语法格式</li>
-</ul>
-<p>从 linux 目录下的 Makefile 文件中，可以得知 bootsect.s 与 setup.s 是通过 as86 与 ld86 汇编链接的</p>
-        
-          <a class="article-more-a" href="/2020/03/20/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E9%83%A8%E5%88%86%EF%BC%88%E4%B8%80%EF%BC%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux0.11</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/20/Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E9%83%A8%E5%88%86%EF%BC%88%E4%B8%80%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1130,6 +1121,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">.NET</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CTF</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Misc</a>
               </li>
             
             <div class="clearfix"></div>
