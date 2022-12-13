@@ -1,5 +1,5 @@
-var OriginTitle = document.title;
 var titleTime;
+var originTitle = document.title;
 document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         document.title = '(つェ⊂) 我藏好了哦~~';
@@ -7,7 +7,7 @@ document.addEventListener('visibilitychange', function() {
     } else {
         document.title = '(*´∇｀*) 被你发现啦~~';
         titleTime = setTimeout(function() {
-            document.title = OriginTitle;
+            document.title = originTitle;
         }, 1500);
     }
 });
