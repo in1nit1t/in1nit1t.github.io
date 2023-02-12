@@ -61,5 +61,5 @@ $(function() {
 })
 
 $(document).ready(function(e) {
-    $('.copyright').html('©2020 - 2021&nbsp;&nbsp;<i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i>&nbsp;&nbsp;in1t<br/ >努力不一定能实现梦想，但是曾经努力过的事实却足以安慰自己');
+    $('.copyright').html('©2020 - 2023&nbsp;&nbsp;<i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i>&nbsp;&nbsp;in1t<br/ >努力不一定能实现梦想，但是曾经努力过的事实却足以安慰自己');
 });
